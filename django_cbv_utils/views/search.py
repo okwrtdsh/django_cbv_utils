@@ -43,7 +43,7 @@ class SearchListView(ListView):
                 for field in filter_dict['flds']:
                     content.append(bound_form.cleaned_data[field])
             else:
-                content = bound_form.cleaned_data[field]
+                content = bound_form.cleaned_data[filter_dict['flds'][0]]
                 if content is None:
                     continue
 
@@ -75,22 +75,22 @@ class SearchListView(ListView):
                 q = Q()
                 for i, v in enumerate(content):
                     if v is not None:
-                        q |= Q(**{'{0}__{1}'.format(
+                        q &= Q(**{'{0}__{1}'.format(
                             target, operator.split("_")[i]): v})
-                queries &= get_or_queries(l)
+                queries &= q
                 continue
 
             if operator == "icontains_or":
                 q = Q()
                 for v in re.split("\s", content):
-                    q |= Q(**{'{0}__icontains'.forma(target): v})
+                    q |= Q(**{'{0}__icontains'.format(target): v})
                 queries &= q
                 continue
 
             if operator == "icontains_and":
                 if not isinstance(content, str) or not content:
                     continue
-                queries &= Q(**{'{0}__icontains'.forma(target): v
+                queries &= Q(**{'{0}__icontains'.format(target): v
                     for v in re.split("\s", content)})
                 continue
 
