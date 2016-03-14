@@ -1,0 +1,57 @@
+[
+{
+  "fields": {
+    "created": "2016-01-01T12:00:00Z",
+    "birthday": "2016-01-01",
+    "name": "foo",
+    "number": 1,
+    "status": 1
+  },
+  "model": "example.mymodel",
+  "pk": 1
+},
+{
+  "fields": {
+    "created": "2016-01-02T12:00:00Z",
+    "birthday": "2016-01-02",
+    "name": "bar",
+    "number": 2,
+    "status": 2
+  },
+  "model": "example.mymodel",
+  "pk": 2
+},
+{
+  "fields": {
+    "created": "2016-01-03T12:00:00Z",
+    "birthday": "2016-01-03",
+    "name": "baz",
+    "number": 3,
+    "status": 3
+  },
+  "model": "example.mymodel",
+  "pk": 3
+},
+{
+  "fields": {
+    "created": "2016-01-04T12:00:00Z",
+    "birthday": "2016-01-04",
+    "name": "qux",
+    "number": 4,
+    "status": 4
+  },
+  "model": "example.mymodel",
+  "pk": 4
+},
+{
+  "fields": {
+    "created": "2016-01-05T12:00:00Z",
+    "birthday": "2016-01-05",
+    "name": "quux",
+    "number": 5,
+    "status": 5
+  },
+  "model": "example.mymodel",
+  "pk": 5
+}
+]

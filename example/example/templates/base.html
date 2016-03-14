@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta http-equiv="content-script-type" content="text/javascript"/>
+<meta http-equiv="content-style-type" content="text/css"/>
+
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+<!--[if gte IE 9]><!-->
+  <script src="{% static "js/jquery.min.js" %}"></script>
+<!--<![endif]-->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" type="text/javascript"></script>
+  <script src="{% static "js/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
+<!--[endif]-->
+
+
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/bootstrap-datepicker/bootstrap-datepicker.js" %}" type="text/javascript"></script>
+<script src="{% static "js/bootstrap-datepicker/locales/bootstrap-datepicker.ja.js" %}" type="text/javascript"></script>
+<script src="{% static "js/bootstrap-timepicker.min.js" %}" type="text/javascript"></script>
+<script src="{% static "js/jquery.datetimepicker.js" %}" type="text/javascript"></script>
+<script src="{% static "js/bootstrap-select.min.js" %}" type="text/javascript"></script>
+<script src="{% static "js/jquery.numeric.js" %}" type="text/javascript"></script>
+<script src="{% static "js/jquery.cookie.js" %}" type="text/javascript"></script>
+<script src="{% static "js/jquery.available.js" %}"></script>
+
+
+<!--[if (gt IE 9)|!(IE)]><!-->
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" />
+<!--<![endif]-->
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="{% static "css/bootstrap-ie8.css" %}" type="text/css" />
+<!--[endif]-->
+<link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}"type="text/css" />
+<link href="{% static "js/bootstrap-datepicker/styles/datepicker.css" %}" rel="stylesheet" type="text/css" media="screen,projection" />
+<link href="{% static "js/bootstrap-datepicker/styles/datepicker3.css" %}" rel="stylesheet" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="{% static "css/bootstrap-timepicker.min.css" %}"type="text/css" />
+<link rel="stylesheet" href="{% static "css/jquery.datetimepicker.css" %}"type="text/css" />
+<link rel="stylesheet" href="{% static "css/bootstrap-select.min.css" %}"type="text/css" />
+
+
+<style type="text/css">
+body{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.align-center{
+  text-align: center;
+}
+.subtitle{
+  font-size: 28px;
+}
+.checkbox li input {
+  margin: 0px 0px 0px -20px;
+}
+.checkbox li {
+  list-style-type: none;
+}
+.checkbox ul {
+  padding-left: 10px;
+}
+#main{
+  margin-top: 30px;
+}
+</style>
+
+
+<script type="text/javascript">
+  $(function(){
+    $('.set_datepicker :input,.set_datepicker:input')
+    .attr("readonly", "readonly")
+    $('.set_datepicker :input,.set_datepicker:input')
+    .datepicker({
+      format: 'yyyy-mm-dd',
+      language: "ja"
+    });
+    $('.set_datepicker_for_search :input,.set_datepicker_for_search:input')
+    .datepicker({
+      format: 'yyyy-mm-dd',
+      language: "ja"
+    });
+    $('.set_timepicker :input,.set_timepicker:input')
+    .attr("readonly", "readonly")
+    .timepicker({
+      showMeridian: false,
+      showSeconds: false,
+      defaultTime: false,
+      showInputs: true,
+      disableFocus: true,
+      minuteStep: 30
+    });
+    $('.set_datetimepicker :input,.set_datetimepicker:input')
+    .attr("readonly", "readonly")
+    .datetimepicker({
+      format:'Y-m-d H:i'
+    });
+    $(".positive-integer").numeric({ decimal: false, negative: false });
+  });
+</script>
+{% block stylesheet %}{% endblock %}
+{% block head %}{% endblock %}
+{% block script %}{% endblock %}
+</head>
+
+<body>
+<div class="container">
+  {% block page-header %}
+  {% endblock %}
+  {% block message %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+      {% endfor %}
+    {% endif %} 
+  {% endblock %}
+  <div id="content">
+    <div id="main">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

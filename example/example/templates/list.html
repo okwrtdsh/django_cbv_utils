@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form>
+  <table class="table">
+    {{ form }}
+  </table>
+  <button class="btn btn-primary" type="submit">submit</button>
+</form>
+<div>
+<table class="table">
+  {% for mymodel in mymodels %}
+  <tr>
+    <td>{{ mymodel.created }}</td>
+    <td>{{ mymodel.name }}</td>
+    <td>{{ mymodel.birthday }}</td>
+    <td>{{ mymodel.number }}</td>
+    <td>{{ mymodel.status }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}
