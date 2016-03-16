@@ -12,6 +12,9 @@ class MyModelSearchForm(SearchForm):
             "number_gt", "number_lt"]},
         "status": {"flds": ["status"]},
     }
+    queryset_exclude = {
+        "name": {"op": "icontains_and", "flds": ["exclude_name_icontains_and"]},
+    }
     class Meta:
         model = MyModel
         fields = ["status"]
@@ -27,6 +30,7 @@ class MyModelSearchForm(SearchForm):
         coerce=int,
         empty_value=None
     )
+    exclude_name_icontains_and = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         super(MyModelSearchForm, self).__init__(*args, **kwargs)

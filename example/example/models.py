@@ -2,6 +2,8 @@ from django.db import models
 
 
 class MyModel(models.Model):
+    class Meta:
+        ordering = ("id",)
     created = models.DateTimeField("created")
     name = models.CharField("name", max_length=30)
     birthday = models.DateField("birthday")
