@@ -30,11 +30,11 @@ class SearchListView(ListView):
             return queryset
 
         queries = Q()
-        queries &= self.get_queries(bound_form, self.form.queryset_filter)
-        queries &= ~self.get_queries(bound_form, self.form.queryset_exclude)
+        queries &= self._get_queries(bound_form, self.form.queryset_filter)
+        queries &= ~self._get_queries(bound_form, self.form.queryset_exclude)
         return queryset.filter(queries).distinct()
 
-    def get_queries(self, bound_form, filter):
+    def _get_queries(self, bound_form, filter):
         queries = Q()
         for target, filter_dict in filter.items():
             operator = filter_dict.get('op', '')
@@ -94,7 +94,12 @@ class SearchListView(ListView):
                     for v in re.split("\s", content)})
                 continue
 
+            queries = get_queries(queries, operator, content)
+
         return queries
+
+    def get_queries(queries, operator, content):
+        return
 
     def get_context_data(self, **kwargs):
         context = super(SearchListView, self).get_context_data(**kwargs)
