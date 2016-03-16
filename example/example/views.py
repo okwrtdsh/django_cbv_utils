@@ -5,7 +5,7 @@ from example.forms import MyModelSearchForm
 
 class MyModelListView(SearchListView):
     model = MyModel
-    form = MyModelSearchForm
+    form_class = MyModelSearchForm
     context_object_name = "mymodels"
     paginate_by = 20
     template_name = "list.html"

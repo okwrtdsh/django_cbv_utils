@@ -6,7 +6,7 @@ from django_cbv_utils.forms import SearchForm
 
 
 class SearchListView(ListView):
-    form = SearchForm
+    form_class = SearchForm
 
     custom_lookup = [
         'or',
@@ -22,28 +22,28 @@ class SearchListView(ListView):
 
     def get_queryset(self):
         queryset = super(SearchListView, self).get_queryset().select_related()
-        if not self.form:
+        if not self.form_class:
             return queryset
 
-        bound_form = self.form(self.request.GET)
-        if not bound_form.is_valid():
+        form = self.form_class(self.request.GET)
+        if not form.is_valid():
             return queryset
 
         queries = Q()
-        queries &= self._get_queries(bound_form, self.form.queryset_filter)
-        queries &= ~self._get_queries(bound_form, self.form.queryset_exclude)
+        queries &= self._get_queries(form, self.form_class.queryset_filter)
+        queries &= ~self._get_queries(form, self.form_class.queryset_exclude)
         return queryset.filter(queries).distinct()
 
-    def _get_queries(self, bound_form, filter):
+    def _get_queries(self, form, filter):
         queries = Q()
         for target, filter_dict in filter.items():
             operator = filter_dict.get('op', '')
             if len(filter_dict['flds']) > 1:
                 content = []
                 for field in filter_dict['flds']:
-                    content.append(bound_form.cleaned_data[field])
+                    content.append(form.cleaned_data[field])
             else:
-                content = bound_form.cleaned_data[filter_dict['flds'][0]]
+                content = form.cleaned_data[filter_dict['flds'][0]]
                 if content is None:
                     continue
 
@@ -103,6 +103,6 @@ class SearchListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SearchListView, self).get_context_data(**kwargs)
-        context['form'] = self.form(self.request.GET)
+        context['form'] = self.form_class(self.request.GET)
         return context
 
