@@ -61,5 +61,5 @@ setup(
     platforms=['any'],
     packages=packages,
     package_data=package_data,
-    install_requires=['Django>=1.8'],
+    install_requires=['Django>=1.8', 'django-crispy-forms>=1.6'],
 )
