@@ -99,7 +99,7 @@ class SearchListView(ListView):
         return queries
 
     def get_queries(queries, operator, content):
-        return
+        return queries
 
     def get_context_data(self, **kwargs):
         context = super(SearchListView, self).get_context_data(**kwargs)
