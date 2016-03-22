@@ -78,9 +78,8 @@ class SearchForm(ModelForm):
             if operator == 'or':
                 q = Q()
                 for target in target_list:
-                    for v in data:
-                        if v is not None:
-                            q |= Q(**{target: v})
+                    if data is not None:
+                        q |= Q(**{target: data})
                 queries &= q
                 continue
 
