@@ -3,18 +3,22 @@ from django_cbv_utils.forms import SearchForm
 from example.models import MyModel
 
 class MyModelSearchForm(SearchForm):
-    queryset_filter = {
-        "name": {"op": "icontains_or", "flds": ["name_icontains_or"]},
-        "created": {"op": "date", "flds": ["created_date"]},
-        "birthday": {"op": "gte_lte", "flds": [
-            "birthday_start", "birthday_end"]},
-        "number": {"op": "gt_lt", "flds": [
-            "number_gt", "number_lt"]},
-        "status": {"flds": ["status"]},
-    }
-    queryset_exclude = {
-        "name": {"op": "icontains_and", "flds": ["exclude_name_icontains_and"]},
-    }
+    queryset_filter = [
+        {"targets": "name", "op": "icontains_or",
+         "fields": "name_icontains_or"},
+        {"targets": "created", "op": "date", "fields": "created_date"},
+        {"targets": "birthday", "op": "gte_lte",
+         "fields": ["birthday_start", "birthday_end"]},
+        {"targets": "number", "op": "gt_lt",
+         "fields": ["number_gt", "number_lt"]},
+        {"targets": "status", "fields": "status"},
+        {"targets": ["name", "name2"],
+         "op": "icontains_or", "fields": "name_or_name2"},
+    ]
+    queryset_exclude = [
+        {"targets": "name", "op": "icontains_and",
+         "fields": "exclude_name_icontains_and"}
+    ]
     class Meta:
         model = MyModel
         fields = ["status"]
@@ -30,6 +34,7 @@ class MyModelSearchForm(SearchForm):
         coerce=int,
         empty_value=None
     )
+    name_or_name2 = forms.CharField()
     exclude_name_icontains_and = forms.CharField()
 
     def __init__(self, *args, **kwargs):
