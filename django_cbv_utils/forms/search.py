@@ -53,11 +53,11 @@ class SearchForm(ModelForm):
                         data.append(self.cleaned_data[field])
                 else:
                     data = self.cleaned_data[filter_dict['fields'][0]]
-                    if data is None:
+                    if data is None or data == '':
                         continue
             else:
                 data = self.cleaned_data[filter_dict['fields']]
-                if data is None:
+                if data is None or data == '':
                     continue
 
             if not operator:
