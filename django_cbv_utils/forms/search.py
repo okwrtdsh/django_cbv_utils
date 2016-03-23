@@ -23,14 +23,12 @@ class SearchForm(ModelForm):
         fields = []
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request", None)
         super(SearchForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].required = False
 
-    def get_queryset(self, queryset):
-        if not self.is_valid():
-            return queryset
-
+    def get_queryset(self, queryset, request=None):
         queries = Q()
         queries &= self._get_queries(self.queryset_filter)
         queries &= ~self._get_queries(self.queryset_exclude)
@@ -126,10 +124,11 @@ class SearchForm(ModelForm):
                 continue
 
             queries = self.get_queries(
-                queries, filter_dict, target_list, operator, data)
+                queries, filter_dict, target_list, operator, data, request)
 
         return queries
 
-    def get_queries(self, queries, filter_dict, target_list, operator, data):
+    def get_queries(
+            self, queries, filter_dict, target_list, operator, data, request):
         return queries
 
