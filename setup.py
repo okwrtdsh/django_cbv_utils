@@ -40,6 +40,8 @@ for dirpath, dirnames, filenames in os.walk(extensions_dir):
     elif filenames:
         relative_path = []
         while '.'.join(parts) not in packages:
+            if not parts:
+                break
             relative_path.append(parts.pop())
         relative_path.reverse()
         path = os.path.join(*relative_path)
