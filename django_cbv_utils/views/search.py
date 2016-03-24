@@ -35,10 +35,6 @@ class SearchListView(FormMixin, ListView):
             kwargs.update({
                 'data': self.request.GET,
             })
-        elif self.request.method in ('POST', 'PUT'):
-            kwargs.update({
-                'data': self.request.POST,
-            })
         return kwargs
 
     def form_valid(self, form, queryset):
