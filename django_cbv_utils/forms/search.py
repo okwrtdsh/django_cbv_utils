@@ -125,7 +125,8 @@ class SearchForm(ModelForm):
                 continue
 
             queries = self.get_queries(
-                queries, filter_dict, target_list, operator, data, request)
+                queries, filter_dict, target_list,
+                operator, data, self.request)
 
         return queries
 
