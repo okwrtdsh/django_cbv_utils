@@ -47,10 +47,10 @@ for dirpath, dirnames, filenames in os.walk(extensions_dir):
         package_files.extend([os.path.join(path, f) for f in filenames])
 
 
-
+version = __import__('django_cbv_utils').__version__
 setup(
     name='django_cbv_utils',
-    version='0.1.0',
+    version=version,
     description="Utilities for Class Based View of Django",
     long_description="""Utilities for Class Based View of Django""",
     author='@okwrtdsh',
