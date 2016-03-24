@@ -29,6 +29,7 @@ class SearchForm(ModelForm):
             self.fields[field].required = False
 
     def get_queryset(self, queryset, request=None):
+        self.is_valid()
         queries = Q()
         queries &= self._get_queries(self.queryset_filter)
         queries &= ~self._get_queries(self.queryset_exclude)
