@@ -4,8 +4,8 @@ from django.db.models import Q
 from django.forms import ModelForm
 
 class SearchForm(ModelForm):
-    queryset_filter = []
-    queryset_exclude = []
+    queryset_filter = None
+    queryset_exclude = None
 
     custom_lookup = [
         'or',
@@ -28,11 +28,21 @@ class SearchForm(ModelForm):
         for field in self.fields:
             self.fields[field].required = False
 
+    def get_queryset_filter(self):
+        if self.queryset_filter is not None:
+            return self.queryset_filter
+        return []
+
+    def get_queryset_exclude(self):
+        if self.queryset_exclude is not None:
+            return self.queryset_exclude
+        return []
+
     def get_queryset(self, queryset, request=None):
         self.is_valid()
         queries = Q()
-        queries &= self._get_queries(self.queryset_filter)
-        queries &= ~self._get_queries(self.queryset_exclude)
+        queries &= self._get_queries(self.get_queryset_filter())
+        queries &= ~self._get_queries(self.get_queryset_exclude())
         return queryset.filter(queries).distinct()
 
     def _get_queries(self, queryset_filter):
