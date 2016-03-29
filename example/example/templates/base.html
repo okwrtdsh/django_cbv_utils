@@ -25,11 +25,6 @@
 
 
 <script src="{% static "js/bootstrap.min.js" %}"></script>
-<script src="{% static "js/bootstrap-datepicker/bootstrap-datepicker.js" %}" type="text/javascript"></script>
-<script src="{% static "js/bootstrap-datepicker/locales/bootstrap-datepicker.ja.js" %}" type="text/javascript"></script>
-<script src="{% static "js/bootstrap-timepicker.min.js" %}" type="text/javascript"></script>
-<script src="{% static "js/jquery.datetimepicker.js" %}" type="text/javascript"></script>
-<script src="{% static "js/bootstrap-select.min.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.numeric.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.cookie.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.available.js" %}"></script>
@@ -41,12 +36,6 @@
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="{% static "css/bootstrap-ie8.css" %}" type="text/css" />
 <!--[endif]-->
-<link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}"type="text/css" />
-<link href="{% static "js/bootstrap-datepicker/styles/datepicker.css" %}" rel="stylesheet" type="text/css" media="screen,projection" />
-<link href="{% static "js/bootstrap-datepicker/styles/datepicker3.css" %}" rel="stylesheet" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="{% static "css/bootstrap-timepicker.min.css" %}"type="text/css" />
-<link rel="stylesheet" href="{% static "css/jquery.datetimepicker.css" %}"type="text/css" />
-<link rel="stylesheet" href="{% static "css/bootstrap-select.min.css" %}"type="text/css" />
 
 
 <style type="text/css">
@@ -77,33 +66,6 @@ body{
 
 <script type="text/javascript">
   $(function(){
-    $('.set_datepicker :input,.set_datepicker:input')
-    .attr("readonly", "readonly")
-    $('.set_datepicker :input,.set_datepicker:input')
-    .datepicker({
-      format: 'yyyy-mm-dd',
-      language: "ja"
-    });
-    $('.set_datepicker_for_search :input,.set_datepicker_for_search:input')
-    .datepicker({
-      format: 'yyyy-mm-dd',
-      language: "ja"
-    });
-    $('.set_timepicker :input,.set_timepicker:input')
-    .attr("readonly", "readonly")
-    .timepicker({
-      showMeridian: false,
-      showSeconds: false,
-      defaultTime: false,
-      showInputs: true,
-      disableFocus: true,
-      minuteStep: 30
-    });
-    $('.set_datetimepicker :input,.set_datetimepicker:input')
-    .attr("readonly", "readonly")
-    .datetimepicker({
-      format:'Y-m-d H:i'
-    });
     $(".positive-integer").numeric({ decimal: false, negative: false });
   });
 </script>

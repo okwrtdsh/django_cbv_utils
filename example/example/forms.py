@@ -1,8 +1,12 @@
 from django import forms
-from django_cbv_utils.forms import SearchForm
+from django_cbv_utils.forms import SearchForm, SetDateTimePicerMixin,\
+     SetFromControlMixin
+from django_cbv_utils.forms.widgets import DateTimePickerWidget,\
+     DatePickerWidget, TimePickerWidget
 from example.models import MyModel
 
-class MyModelSearchForm(SearchForm):
+class MyModelSearchForm(
+        SearchForm, SetFromControlMixin, SetDateTimePicerMixin):
     queryset_filter = [
         {"targets": "name", "op": "icontains_or",
          "fields": "name_icontains_or"},
@@ -39,9 +43,7 @@ class MyModelSearchForm(SearchForm):
     name_or_name2 = forms.CharField()
     id_or_number = forms.IntegerField()
     exclude_name_icontains_and = forms.CharField()
-
-    def __init__(self, *args, **kwargs):
-        super(MyModelSearchForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': "form-control"})
+    datetime_picker = forms.DateTimeField(widget=DateTimePickerWidget())
+    date_picker = forms.DateField(widget=DatePickerWidget())
+    time_picker = forms.TimeField(widget=TimePickerWidget())
 

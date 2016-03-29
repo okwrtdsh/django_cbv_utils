@@ -1,1 +1,1 @@
-from django_cbv_utils.views.search import SearchListView
+from .search import SearchListView
