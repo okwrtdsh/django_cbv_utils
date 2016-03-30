@@ -33,8 +33,6 @@ TO_PYTHON_FMT = {
 
 TO_PYTHON_RE = re.compile(r'\b(' + '|'.join(TO_PYTHON_FMT.keys()) + r')\b')
 
-ID_RE = re.compile(r'id=\"([a-z_]+)\"')
-
 
 def to_js_value(key, value):
     if isinstance(value, string_types):
