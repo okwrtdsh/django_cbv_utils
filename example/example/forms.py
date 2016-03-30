@@ -44,6 +44,27 @@ class MyModelSearchForm(
     id_or_number = forms.IntegerField()
     exclude_name_icontains_and = forms.CharField()
     datetime_picker = forms.DateTimeField(widget=DateTimePickerWidget())
-    date_picker = forms.DateField(widget=DatePickerWidget())
+    datetime_picker2 = forms.DateTimeField(widget=DateTimePickerWidget(
+        options={
+            "toolbarPlacement": "top",
+            "showClear": True,
+            "showClose": True,
+            "sideBySide": False,
+        }))
+    date_picker = forms.DateField(widget=DatePickerWidget(
+        options={
+            "showTodayButton": True,
+            "viewMode": "decades",
+        }))
+    date_picker2 = forms.DateField(widget=DatePickerWidget(
+        options={
+            "viewMode": "years",
+            "format": "YYYY-MM",
+        }))
     time_picker = forms.TimeField(widget=TimePickerWidget())
+    time_picker2 = forms.TimeField(widget=TimePickerWidget(
+        options={
+            "format": "HH:mm:SS",
+            "stepping": 30,
+        }))
 

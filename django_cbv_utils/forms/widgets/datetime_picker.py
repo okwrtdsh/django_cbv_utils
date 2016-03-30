@@ -86,14 +86,14 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
 
         return mark_safe(
             self.DATETIMEPICKER_TEMPLATE.format(
-                id=self.get_id(rendered_widget),
+                id=self.get_id(final_attrs),
                 rendered_widget=rendered_widget,
                 options=js_options
             )
         )
 
-    def get_id(self, rendered_widget):
-        return ID_RE.search(rendered_widget).group(1)
+    def get_id(self, final_attrs):
+        return final_attrs["id"]
 
     @property
     def media(self):

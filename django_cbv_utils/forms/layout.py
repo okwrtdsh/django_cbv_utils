@@ -43,6 +43,11 @@ class SetDateTimePicerMixin(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SetDateTimePicerMixin, self).__init__(*args, **kwargs)
         for field in self.fields:
+            if isinstance(self.fields[field].widget, (
+                    DateTimePickerWidget,
+                    DatePickerWidget,
+                    TimePickerWidget,)):
+                continue
             if isinstance(self.fields[field].widget, forms.DateTimeInput):
                 self.fields[field].widget = DateTimePickerWidget()
             elif isinstance(self.fields[field].widget, forms.DateInput):
