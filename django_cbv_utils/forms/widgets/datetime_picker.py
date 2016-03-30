@@ -55,7 +55,6 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
             $("#{id}").datetimepicker({{{options}}});
           }});
         </script>
-        </div>
       </div>
     """
 
