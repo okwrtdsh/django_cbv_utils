@@ -1,12 +1,12 @@
 from django import forms
-from django_cbv_utils.forms import SearchForm, SetDateTimePicerMixin,\
+from django_cbv_utils.forms import SearchForm, SetDateTimePickerMixin,\
      SetFromControlMixin
 from django_cbv_utils.forms.widgets import DateTimePickerWidget,\
      DatePickerWidget, TimePickerWidget
 from example.models import MyModel
 
 class MyModelSearchForm(
-        SearchForm, SetFromControlMixin, SetDateTimePicerMixin):
+        SearchForm, SetFromControlMixin, SetDateTimePickerMixin):
     queryset_filter = [
         {"targets": "name", "op": "icontains_or",
          "fields": "name_icontains_or"},

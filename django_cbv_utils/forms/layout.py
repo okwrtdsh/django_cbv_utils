@@ -38,10 +38,10 @@ class SetFromControlMixin(forms.Form):
                     {'class': "form-control"})
 
 
-class SetDateTimePicerMixin(forms.Form):
+class SetDateTimePickerMixin(forms.Form):
 
     def __init__(self, *args, **kwargs):
-        super(SetDateTimePicerMixin, self).__init__(*args, **kwargs)
+        super(SetDateTimePickerMixin, self).__init__(*args, **kwargs)
         for field in self.fields:
             if isinstance(self.fields[field].widget, (
                     DateTimePickerWidget,

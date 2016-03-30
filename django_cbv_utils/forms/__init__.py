@@ -1,5 +1,5 @@
 from .search import SearchForm
 from .layout import SimpleLayoutMixin, SubmitLayoutMixin,\
-     SetFromControlMixin, SetDateTimePicerMixin
+     SetFromControlMixin, SetDateTimePickerMixin
 from .widgets import *  # NOQA
 
