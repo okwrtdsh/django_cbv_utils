@@ -43,18 +43,39 @@ def to_js_value(key, value):
 
 
 class DateTimePickerBaseMixin(DateTimeBaseInput):
-    DATETIMEPICKER_TEMPLATE = """
-      <div class="row">
-        <div class='col-sm-12'>
-          {rendered_widget}
+    DATETIMEPICKER_TEMPLATE = {
+        False: """
+        <div class="row">
+          <div class='col-sm-12'>
+            {rendered_widget}
+          </div>
+          <script type="text/javascript">
+            $(function () {{
+              $("#{id}").datetimepicker({{{options}}});
+            }});
+          </script>
         </div>
-        <script type="text/javascript">
-          $(function () {{
-            $("#{id}").datetimepicker({{{options}}});
-          }});
-        </script>
-      </div>
-    """
+        """,
+        True: """
+        <div class="row">
+          <div class='col-sm-12'>
+            <div class="form-group">
+              <div class='input-group' id="{id}">
+                {rendered_widget}
+                <span class="input-group-addon">
+                  <span class="glyphicon {glyphicon}"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+            $(function () {{
+              $("div#{id}").datetimepicker({{{options}}});
+            }});
+          </script>
+        </div>
+        """
+    }
 
     glyphicon = None
 
@@ -64,6 +85,7 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
         self.attrs = attrs
         self.options = options
         self.format = None
+        self.glyphicon = self.options.pop("glyphicon", None)
 
         format = self.options['format']
         self.format = TO_PYTHON_RE.sub(
@@ -82,15 +104,20 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
         js_options = ",\n".join(options_list)
 
         return mark_safe(
-            self.DATETIMEPICKER_TEMPLATE.format(
+            self.DATETIMEPICKER_TEMPLATE[self.has_glyphicon].format(
                 id=self.get_id(final_attrs),
                 rendered_widget=rendered_widget,
-                options=js_options
+                options=js_options,
+                glyphicon=self.glyphicon
             )
         )
 
     def get_id(self, final_attrs):
         return final_attrs["id"]
+
+    @property
+    def has_glyphicon(self):
+        return self.glyphicon is not None
 
     @property
     def media(self):

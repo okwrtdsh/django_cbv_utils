@@ -60,6 +60,7 @@ class MyModelSearchForm(
         options={
             "viewMode": "years",
             "format": "YYYY-MM",
+            "glyphicon": "glyphicon-calendar",
         }))
     time_picker = forms.TimeField(widget=TimePickerWidget())
     time_picker2 = forms.TimeField(widget=TimePickerWidget(
