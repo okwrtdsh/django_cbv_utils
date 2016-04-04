@@ -4,7 +4,7 @@ from django.forms import forms
 from django.forms.widgets import DateTimeBaseInput,\
      DateTimeInput, DateInput, TimeInput
 from django.utils.safestring import mark_safe
-from django.utils.six import string_types
+from .misc import to_js_value
 
 
 # http://momentjs.com/docs/#/parsing/string-format/
@@ -32,14 +32,6 @@ TO_PYTHON_FMT = {
 }
 
 TO_PYTHON_RE = re.compile(r'\b(' + '|'.join(TO_PYTHON_FMT.keys()) + r')\b')
-
-
-def to_js_value(key, value):
-    if isinstance(value, string_types):
-        return "'%s'" % value
-    if isinstance(value, bool):
-        return {True:'true',False:'false'}[value]
-    return value
 
 
 class DateTimePickerBaseMixin(DateTimeBaseInput):
