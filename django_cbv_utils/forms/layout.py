@@ -2,7 +2,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django import forms
 from .widgets import DateTimePickerWidget, DatePickerWidget,\
-     TimePickerWidget
+     TimePickerWidget, NumericWidget, NumericIntegerWidget,\
+     NumericPositiveIntegerWidget
 
 
 class SimpleLayoutMixin(forms.BaseForm):
@@ -46,7 +47,7 @@ class SetDateTimePickerMixin(forms.Form):
             if isinstance(self.fields[field].widget, (
                     DateTimePickerWidget,
                     DatePickerWidget,
-                    TimePickerWidget,)):
+                    TimePickerWidget)):
                 continue
             if isinstance(self.fields[field].widget, forms.DateTimeInput):
                 self.fields[field].widget = DateTimePickerWidget()
@@ -54,4 +55,18 @@ class SetDateTimePickerMixin(forms.Form):
                 self.fields[field].widget = DatePickerWidget()
             elif isinstance(self.fields[field].widget, forms.TimeInput):
                 self.fields[field].widget = TimePickerWidget()
+
+
+class SetPositiveIntegerMixin(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(SetPositiveIntegerMixin, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if isinstance(self.fields[field].widget, (
+                    NumericWidget,
+                    NumericIntegerWidget,
+                    NumericPositiveIntegerWidget)):
+                continue
+            if isinstance(self.fields[field].widget, forms.NumberInput):
+                self.fields[field].widget = NumericPositiveIntegerWidget()
 

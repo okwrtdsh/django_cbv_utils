@@ -1,13 +1,14 @@
 from django import forms
 from django_cbv_utils.forms import SearchForm, SetDateTimePickerMixin,\
-     SetFromControlMixin
+     SetFromControlMixin, SetPositiveIntegerMixin
 from django_cbv_utils.forms.widgets import DateTimePickerWidget,\
      DatePickerWidget, TimePickerWidget, NumericWidget, NumericIntegerWidget,\
      NumericPositiveIntegerWidget
 from example.models import MyModel
 
 class MyModelSearchForm(
-        SearchForm, SetFromControlMixin, SetDateTimePickerMixin):
+        SearchForm, SetFromControlMixin,
+        SetDateTimePickerMixin, SetPositiveIntegerMixin):
     queryset_filter = [
         {"targets": "name", "op": "icontains_or",
          "fields": "name_icontains_or"},
