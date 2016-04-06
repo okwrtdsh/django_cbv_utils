@@ -34,7 +34,7 @@ class JSONView(JSONResponseMixin, TemplateView):
         return self.render_to_json_response(context, **response_kwargs)
 
 
-class AjaxJSONResponseView(JSONResponseMixin, FormView):
+class FormJSONResponseView(JSONResponseMixin, FormView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
