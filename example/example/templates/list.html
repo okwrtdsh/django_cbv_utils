@@ -12,6 +12,10 @@
   </table>
   <button class="btn btn-primary" type="submit">submit</button>
 </form>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-primary" type="submit" name="reset_button" value="reset">reset</button>
+</form>
 <div>
 <table class="table">
   {% for mymodel in mymodels %}
