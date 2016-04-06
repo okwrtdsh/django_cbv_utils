@@ -1,6 +1,6 @@
 from django.http.response import JsonResponse
-from django.views.generic.base import TemplateView
-from django.views.generic import FormView
+from django.views.generic.base import TemplateView, TemplateResponseMixin
+from django.views.generic.edit import FormView
 
 
 class JSONResponseMixin(object):
@@ -39,4 +39,15 @@ class AjaxJSONResponseView(JSONResponseMixin, FormView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         return self.render_to_json_response(self.get_context_data(form=form), safe=False)
+
+
+class HybridJSONResponseMixin(JSONResponseMixin, TemplateResponseMixin):
+    sign = "format"
+    countersign = "json"
+
+    def render_to_response(self, context):
+        if self.request.GET.get(self.sign) == self.countersign:
+            return self.render_to_json_response(context)
+        else:
+            return super(HybridJSONResponseMixin, self).render_to_response(context)
 
