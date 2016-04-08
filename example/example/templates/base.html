@@ -25,7 +25,6 @@
 
 
 <script src="{% static "js/bootstrap.min.js" %}"></script>
-<script src="{% static "js/jquery.numeric.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.cookie.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.available.js" %}"></script>
 
@@ -64,11 +63,6 @@ body{
 </style>
 
 
-<script type="text/javascript">
-  $(function(){
-    $(".positive-integer").numeric({ decimal: false, negative: false });
-  });
-</script>
 {% block stylesheet %}{% endblock %}
 {% block head %}{% endblock %}
 {% block script %}{% endblock %}

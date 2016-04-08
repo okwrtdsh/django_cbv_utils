@@ -1,6 +1,4 @@
 # Dependent on https://github.com/SamWM/jQuery-Plugins/tree/master/numeric
-import re
-from django.forms import forms
 from django.forms.widgets import NumberInput
 from django.utils.safestring import mark_safe
 from .misc import to_js_value
@@ -23,6 +21,9 @@ class NumericWidget(NumberInput):
           </script>
         </div>
         """
+
+    class Media:
+        js = ["numeric/jquery.numeric.min.js"]
 
     def __init__(self, attrs={}, options={}):
         self.attrs = attrs
