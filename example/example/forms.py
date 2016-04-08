@@ -3,7 +3,7 @@ from django_cbv_utils.forms import SearchForm, SetDateTimePickerMixin,\
      SetFromControlMixin, SetPositiveIntegerMixin
 from django_cbv_utils.forms.widgets import DateTimePickerWidget,\
      DatePickerWidget, TimePickerWidget, NumericWidget, NumericIntegerWidget,\
-     NumericPositiveIntegerWidget
+     NumericPositiveIntegerWidget, BootstrapFileInputWidget
 from example.models import MyModel
 
 class MyModelSearchForm(
@@ -73,4 +73,5 @@ class MyModelSearchForm(
     numerc = forms.IntegerField(widget=NumericWidget())
     numeric_integer = forms.IntegerField(widget=NumericIntegerWidget())
     numeric_positive_integer = forms.IntegerField(widget=NumericPositiveIntegerWidget())
+    bootstrap_filewidget = forms.FileField(widget=BootstrapFileInputWidget())
 
