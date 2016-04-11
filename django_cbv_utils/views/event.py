@@ -6,7 +6,7 @@ class GETBindEventMixin(View):
     get_key = "action"
     get_events = {"myevent": "myfunc"}
 
-    def hello_world(self, request, *args, **kwargs):
+    def myfunc(self, request, *args, **kwargs):
     """
 
     get_key = None
@@ -26,7 +26,7 @@ class POSTBindEventMixin(View):
     post_key = "action"
     post_events = {"myevent": "myfunc"}
 
-    def hello_world(self, request, *args, **kwargs):
+    def myfunc(self, request, *args, **kwargs):
     """
 
     post_key = None
