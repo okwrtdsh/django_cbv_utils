@@ -9,7 +9,7 @@ class GETBindEventMixin(View):
     def myfunc(self, request, *args, **kwargs):
     """
 
-    get_key = None
+    get_key = "action"
     get_events = {}
 
     def get(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class POSTBindEventMixin(View):
     def myfunc(self, request, *args, **kwargs):
     """
 
-    post_key = None
+    post_key = "action"
     post_events = {}
 
     def post(self, request, *args, **kwargs):
