@@ -31,7 +31,7 @@ class SearchListView(FormMixin, ListView):
             'prefix': self.get_prefix(),
             'request': self.request,
         }
-        if self.request.method == 'GET':
+        if self.request.method == 'GET' and self.request.GET:
             kwargs.update({
                 'data': self.request.GET,
             })
