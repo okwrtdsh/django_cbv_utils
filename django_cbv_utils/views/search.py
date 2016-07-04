@@ -27,7 +27,7 @@ class SearchListView(FormMixin, ListView):
         Returns the keyword arguments for instantiating the form.
         """
         kwargs = {
-            'initial': self.get_initial(),
+            'data': self.get_initial(),
             'prefix': self.get_prefix(),
             'request': self.request,
         }
