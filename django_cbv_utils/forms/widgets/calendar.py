@@ -135,6 +135,8 @@ class CalendarCheckboxSelectMultiple(SelectMultiple):
     LABEL_ALL = "全室"
     LABEL_DATE = "日付"
     LABEL_WEEKDAY = "曜日"
+    style_attr = "table-layout: fixed;"
+    class_attrs = ["calendar", "table", "table-bordered",  "table-hover"]
 
     def __init__(self, attrs=None, choices=(), disables=()):
         super().__init__(attrs, choices)
@@ -154,13 +156,12 @@ class CalendarCheckboxSelectMultiple(SelectMultiple):
     def render(self, name, value, attrs=None, choices=(), disables=()):
         if value is None:
             value = []
-        self.final_attrs = self.build_attrs(attrs, name=name)
+        final_attrs = self.build_attrs(attrs, name=name)
         self.first_weekday, self.days = calendar.monthrange(
             self.year, self.month)
-        self.final_attrs["style"] = "table-layout: fixed;"
-        output = [format_html(
-            '<table class="calendar table table-bordered"{}>',
-            flatatt(self.final_attrs))]
+        final_attrs["style"] = self.style_attr
+        final_attrs["class"] = " ".join(self.class_attrs)
+        output = [format_html('<table{}>', flatatt(final_attrs))]
         thead = self.render_thead()
         output.append(thead)
         tbody = self.get_renderer(
