@@ -3,6 +3,7 @@ from crispy_forms.layout import Layout, Submit
 from django import forms
 
 from .widgets import (
+    CalendarCheckboxSelectMultiple,
     DatePickerWidget, DateTimePickerWidget,
     NumericIntegerWidget, NumericPositiveIntegerWidget,
     NumericWidget, TimePickerWidget)
@@ -35,8 +36,9 @@ class SetFromControlMixin(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SetFromControlMixin, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if not isinstance(self.fields[field].widget,
-                              (forms.CheckboxInput, forms.RadioSelect)):
+            if not isinstance(self.fields[field].widget, (
+                    forms.CheckboxInput, forms.RadioSelect,
+                    CalendarCheckboxSelectMultiple)):
                 self.fields[field].widget.attrs.update(
                     {'class': "form-control"})
 
