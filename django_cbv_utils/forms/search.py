@@ -1,7 +1,9 @@
-import re
 import datetime
+import re
+
 from django.db.models import Q
 from django.forms import ModelForm
+
 
 class SearchForm(ModelForm):
     queryset_filter = None
@@ -130,7 +132,7 @@ class SearchForm(ModelForm):
                 q = Q()
                 for target in target_list:
                     q |= Q(**{'{0}__icontains'.format(target): v
-                        for v in re.split("\s", data)})
+                              for v in re.split("\s", data)})
                 queries &= q
                 continue
 
@@ -143,4 +145,3 @@ class SearchForm(ModelForm):
     def get_queries(
             self, queries, filter_dict, target_list, operator, data, request):
         return queries
-

@@ -48,4 +48,3 @@ class SearchListView(FormMixin, ListView):
         Returns the queryset in case of invalid form.
         """
         return queryset
-

@@ -1,9 +1,11 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django import forms
-from .widgets import DateTimePickerWidget, DatePickerWidget,\
-     TimePickerWidget, NumericWidget, NumericIntegerWidget,\
-     NumericPositiveIntegerWidget
+
+from .widgets import (
+    DatePickerWidget, DateTimePickerWidget,
+    NumericIntegerWidget, NumericPositiveIntegerWidget,
+    NumericWidget, TimePickerWidget)
 
 
 class SimpleLayoutMixin(forms.BaseForm):
@@ -69,4 +71,3 @@ class SetPositiveIntegerMixin(forms.Form):
                 continue
             if isinstance(self.fields[field].widget, forms.NumberInput):
                 self.fields[field].widget = NumericPositiveIntegerWidget()
-

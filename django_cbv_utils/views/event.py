@@ -39,4 +39,3 @@ class POSTBindEventMixin(View):
         if key is not None and self.post_events.get(key):
             handler = getattr(self, self.post_events[key], handler)
         return handler(request, *args, **kwargs)
-

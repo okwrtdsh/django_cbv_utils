@@ -7,4 +7,3 @@ def to_js_value(key, value):
     if isinstance(value, bool):
         return {True:'true',False:'false'}[value]
     return value
-

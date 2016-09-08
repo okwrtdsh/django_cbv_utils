@@ -1,4 +1,5 @@
 from urllib.parse import urlencode
+
 from django.http.response import HttpResponseRedirect
 
 
@@ -12,4 +13,3 @@ class RedirectWithParamsMixin(object):
         super(RedirectWithParamsMixin, self).form_valid(form)
         return HttpResponseRedirect(
             self.get_success_url() + "?%s" % urlencode(self.get_params(form)))
-

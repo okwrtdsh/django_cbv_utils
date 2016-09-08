@@ -50,4 +50,3 @@ class RequiredMixin(forms.Form):
         for kwargs in self.get_chain_required_list():
             self.chain_required(cleaned_data, **kwargs)
         return cleaned_data
-

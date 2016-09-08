@@ -1,6 +1,6 @@
-from django.forms.widgets import ClearableFileInput, CheckboxInput
-from django.utils.safestring import mark_safe
+from django.forms.widgets import CheckboxInput, ClearableFileInput
 from django.utils.html import conditional_escape
+from django.utils.safestring import mark_safe
 
 
 class BootstrapFileInputWidget(ClearableFileInput):
@@ -80,4 +80,3 @@ class BootstrapFileInputWidget(ClearableFileInput):
                 substitutions['clear_template'] = self.template_with_clear % substitutions
 
         return mark_safe(template % substitutions)
-

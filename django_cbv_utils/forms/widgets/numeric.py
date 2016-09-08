@@ -1,6 +1,7 @@
 # Dependent on https://github.com/SamWM/jQuery-Plugins/tree/master/numeric
 from django.forms.widgets import NumberInput
 from django.utils.safestring import mark_safe
+
 from .misc import to_js_value
 
 
@@ -63,4 +64,3 @@ class NumericPositiveIntegerWidget(NumericWidget):
         options['decimal'] = options.get('decimal', False)
         options['negative'] = options.get('negative', False)
         super(NumericPositiveIntegerWidget, self).__init__(attrs, options)
-

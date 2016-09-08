@@ -1,5 +1,5 @@
 from django.http.response import JsonResponse
-from django.views.generic.base import TemplateView, TemplateResponseMixin
+from django.views.generic.base import TemplateResponseMixin, TemplateView
 from django.views.generic.edit import FormView
 
 
@@ -50,4 +50,3 @@ class HybridJSONResponseMixin(JSONResponseMixin, TemplateResponseMixin):
             return self.render_to_json_response(context)
         else:
             return super(HybridJSONResponseMixin, self).render_to_response(context)
-

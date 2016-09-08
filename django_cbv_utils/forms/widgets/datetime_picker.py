@@ -1,11 +1,12 @@
 # Dependent on https://github.com/Eonasdan/bootstrap-datetimepicker
 import re
-from django.forms import forms
-from django.forms.widgets import DateTimeBaseInput,\
-     DateTimeInput, DateInput, TimeInput
-from django.utils.safestring import mark_safe
-from .misc import to_js_value
 
+from django.forms import forms
+from django.forms.widgets import (
+    DateInput, DateTimeBaseInput, DateTimeInput, TimeInput)
+from django.utils.safestring import mark_safe
+
+from .misc import to_js_value
 
 # http://momentjs.com/docs/#/parsing/string-format/
 TO_PYTHON_FMT = {
@@ -161,4 +162,3 @@ class TimePickerWidget(DateTimePickerBaseMixin, TimeInput):
         options['format'] = options.get('format', 'HH:mm')
         options['locale'] = options.get('locale', 'ja')
         super(TimePickerWidget, self).__init__(attrs, options)
-
