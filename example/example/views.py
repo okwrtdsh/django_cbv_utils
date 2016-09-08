@@ -1,8 +1,10 @@
-from django_cbv_utils.views import SearchListView, GETBindEventMixin,\
-     JSONResponseMixin, POSTBindEventMixin
-from example.models import MyModel
-from example.forms import MyModelSearchForm
 from django.shortcuts import redirect
+from django_cbv_utils.views import (
+    GETBindEventMixin, JSONResponseMixin,
+    POSTBindEventMixin, SearchListView)
+
+from example.forms import MyModelSearchForm
+from example.models import MyModel
 
 
 class MyModelListView(

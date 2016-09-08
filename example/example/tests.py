@@ -1,10 +1,13 @@
 import datetime
+
 from django.test import TestCase
-from example.models import MyModel
+
 from example.forms import MyModelSearchForm
+from example.models import MyModel
 
 
 class SearchListViewTestCase(TestCase):
+
     @classmethod
     def setUpTestData(cls):
         MyModel.objects.create(
@@ -56,4 +59,3 @@ class SearchListViewTestCase(TestCase):
     def test_blank_data(self):
         form = self.form({})
         self.assertTrue(form.is_valid())
-

@@ -1,10 +1,17 @@
+import datetime
+
 from django import forms
-from django_cbv_utils.forms import SearchForm, SetDateTimePickerMixin,\
-     SetFromControlMixin, SetPositiveIntegerMixin
-from django_cbv_utils.forms.widgets import DateTimePickerWidget,\
-     DatePickerWidget, TimePickerWidget, NumericWidget, NumericIntegerWidget,\
-     NumericPositiveIntegerWidget, BootstrapFileInputWidget
+from django_cbv_utils.forms import (
+    SearchForm, SetDateTimePickerMixin, SetFromControlMixin,
+    SetPositiveIntegerMixin)
+from django_cbv_utils.forms.fields import CalendarMultipleChoiceField
+from django_cbv_utils.forms.widgets import (
+    BootstrapFileInputWidget, DatePickerWidget,
+    DateTimePickerWidget, NumericIntegerWidget,
+    NumericPositiveIntegerWidget, NumericWidget, TimePickerWidget)
+
 from example.models import MyModel
+
 
 class MyModelSearchForm(
         SearchForm, SetFromControlMixin,
@@ -27,6 +34,7 @@ class MyModelSearchForm(
         {"targets": "name", "op": "icontains_and",
          "fields": "exclude_name_icontains_and"}
     ]
+
     class Meta:
         model = MyModel
         fields = ["status"]
@@ -72,6 +80,19 @@ class MyModelSearchForm(
         }))
     numerc = forms.IntegerField(widget=NumericWidget())
     numeric_integer = forms.IntegerField(widget=NumericIntegerWidget())
-    numeric_positive_integer = forms.IntegerField(widget=NumericPositiveIntegerWidget())
+    numeric_positive_integer = forms.IntegerField(
+        widget=NumericPositiveIntegerWidget())
     bootstrap_filewidget = forms.FileField(widget=BootstrapFileInputWidget())
-
+    calendar = CalendarMultipleChoiceField(
+        label="カレンダー",
+        choices=(
+            (1, "label1"),
+            (2, "label2"),
+            (3, "label3"),
+        ),
+        disables=(
+            (1, [datetime.date.today(), datetime.date.today().replace(day=1)]),
+            (3, [datetime.date.today().replace(day=10 + i) for i in range(10)])
+        ),
+        day_abbr="月火水木金土日"
+    )
