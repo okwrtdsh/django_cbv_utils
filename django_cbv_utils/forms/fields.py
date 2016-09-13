@@ -1,4 +1,3 @@
-import calendar
 import copy
 import datetime
 from collections import defaultdict
@@ -8,6 +7,7 @@ from django.forms import MultipleChoiceField
 from django.forms.fields import CallableChoiceIterator
 from django.utils import timezone
 from django.utils.encoding import force_str, force_text, smart_text
+from django.utils.translation import ugettext as _
 
 from .widgets.calendar import CalendarCheckboxSelectMultiple
 
@@ -43,7 +43,10 @@ class CalendarMultipleChoiceField(MultipleChoiceField):
         if day_abbr is not None:
             self.day_abbr = day_abbr
         else:
-            self.day_abbr = calendar.day_abbr
+            self.day_abbr = [
+                _('Mon'), _('Tue'), _('Wed'),
+                _('Thu'), _('Fri'), _('Sat'), _('Sun'),
+            ]
 
     def __deepcopy__(self, memo):
         result = super().__deepcopy__(memo)
