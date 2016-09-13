@@ -6,7 +6,6 @@ except ImportError:
     from distutils.core import setup  # NOQA
 
 
-
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -32,7 +31,8 @@ extensions_dir = 'django_cbv_utils'
 
 for dirpath, dirnames, filenames in os.walk(extensions_dir):
     # Ignore PEP 3147 cache dirs and those whose names start with '.'
-    dirnames[:] = [d for d in dirnames if not d.startswith('.') and d != '__pycache__']
+    dirnames[:] = [
+        d for d in dirnames if not d.startswith('.') and d != '__pycache__']
     parts = fullsplit(dirpath)
     package_name = '.'.join(parts)
     if '__init__.py' in filenames:
@@ -61,5 +61,5 @@ setup(
     platforms=['any'],
     packages=packages,
     package_data=package_data,
-    install_requires=['Django>=1.8', 'django-crispy-forms>=1.6'],
+    install_requires=['Django>=1.8'],
 )
