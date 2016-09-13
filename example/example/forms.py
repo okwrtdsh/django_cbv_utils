@@ -6,8 +6,8 @@ from django_cbv_utils.forms import (
     SetPositiveIntegerMixin)
 from django_cbv_utils.forms.fields import CalendarMultipleChoiceField
 from django_cbv_utils.forms.widgets import (
-    BootstrapFileInputWidget, DatePickerWidget,
-    DateTimePickerWidget, NumericIntegerWidget,
+    BootstrapFileInputWidget, CalendarRadioSelectMultiple,
+    DatePickerWidget, DateTimePickerWidget, NumericIntegerWidget,
     NumericPositiveIntegerWidget, NumericWidget, TimePickerWidget)
 
 from example.models import MyModel
@@ -93,6 +93,17 @@ class MyModelSearchForm(
         disables=(
             (1, [datetime.date.today(), datetime.date.today().replace(day=1)]),
             (3, [datetime.date.today().replace(day=10 + i) for i in range(10)])
+        )
+    )
+    radio_calendar = CalendarMultipleChoiceField(
+        choices=(
+            (1, "label1"),
+            (2, "label2"),
+            (3, "label3"),
         ),
-        day_abbr="月火水木金土日"
+        disables=(
+            (1, [datetime.date.today(), datetime.date.today().replace(day=1)]),
+            (3, [datetime.date.today().replace(day=10 + i) for i in range(10)])
+        ),
+        widget=CalendarRadioSelectMultiple
     )

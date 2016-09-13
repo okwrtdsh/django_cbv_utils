@@ -70,9 +70,17 @@ class CalendarCheckboxInput(SubWidget):
         return format_html('{}', self.tag(attrs))
 
 
+class CalendarRadioInput(CalendarCheckboxInput):
+    input_type = 'radio'
+
+    def __init__(self, name, value, attrs, choice_value, date, date_format):
+        super().__init__(name, value, attrs, choice_value, date, date_format)
+        self.name += self.date.strftime("%d")
+
+
 @html_safe
 @python_2_unicode_compatible
-class CalendarTbodyRenderer(object):
+class CalendarCheckboxRenderer(object):
     choice_input_class = CalendarCheckboxInput
     tr_html = '<tr>{label}{content}</tr>'
     label_html = '<td colspan="4">{choice_label}</td>'
@@ -128,9 +136,13 @@ class CalendarTbodyRenderer(object):
         return mark_safe('\n'.join(output))
 
 
+class CalendarRadioRenderer(CalendarCheckboxRenderer):
+    choice_input_class = CalendarRadioInput
+
+
 class CalendarCheckboxSelectMultiple(SelectMultiple):
     _empty_value = []
-    renderer = CalendarTbodyRenderer
+    renderer = CalendarCheckboxRenderer
     LABEL_NAME = "部屋"
     LABEL_ALL = "全室"
     LABEL_DATE = "日付"
@@ -193,4 +205,19 @@ class CalendarCheckboxSelectMultiple(SelectMultiple):
     def value_from_datadict(self, data, files, name):
         if isinstance(data, (MultiValueDict, MergeDict)):
             return data.getlist(name)
+        return data.get(name, None)
+
+
+class CalendarRadioSelectMultiple(CalendarCheckboxSelectMultiple):
+    renderer = CalendarRadioRenderer
+
+    def value_from_datadict(self, data, files, name):
+        days = calendar.monthrange(self.year, self.month)[1]
+        if isinstance(data, (MultiValueDict, MergeDict)):
+            values = []
+            for i in range(days):
+                value = data.get("%s%02d" % (name, i+1))
+                if value:
+                    values.append(value)
+            return values
         return data.get(name, None)
