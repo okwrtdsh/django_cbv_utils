@@ -121,8 +121,10 @@ class SearchForm(ModelForm):
                     continue
                 q = Q()
                 for target in target_list:
-                    for v in re.split("\s", data):
-                        q |= Q(**{'{0}__icontains'.format(target): v})
+                    _q = Q()
+                    for v in re.split('\s', data):
+                        _q |= Q(**{'{0}__icontains'.format(target): v})
+                    q |= _q
                 queries &= q
                 continue
 
@@ -131,8 +133,10 @@ class SearchForm(ModelForm):
                     continue
                 q = Q()
                 for target in target_list:
-                    q |= Q(**{'{0}__icontains'.format(target): v
-                              for v in re.split("\s", data)})
+                    _q = Q()
+                    for v in re.split('\s', data):
+                        _q &= Q(**{'{0}__icontains'.format(target): v})
+                    q |= _q
                 queries &= q
                 continue
 
