@@ -7,27 +7,24 @@ from .widgets import (
     NumericWidget, TimePickerWidget)
 
 
-class SetFromControlMixin(forms.Form):
+class SetFromControlMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
-        super(SetFromControlMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for field in self.fields:
             if not isinstance(self.fields[field].widget, (
-                    forms.CheckboxInput, forms.RadioSelect,
-                    CalendarCheckboxSelectMultiple)):
+                    forms.CheckboxInput, forms.RadioSelect)):
                 self.fields[field].widget.attrs.update(
                     {'class': "form-control"})
 
 
-class SetDateTimePickerMixin(forms.Form):
+class SetDateTimePickerMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
-        super(SetDateTimePickerMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for field in self.fields:
             if isinstance(self.fields[field].widget, (
-                    DateTimePickerWidget,
-                    DatePickerWidget,
-                    TimePickerWidget)):
+                    DateTimePickerWidget, DatePickerWidget, TimePickerWidget)):
                 continue
             if isinstance(self.fields[field].widget, forms.DateTimeInput):
                 self.fields[field].widget = DateTimePickerWidget()
@@ -37,14 +34,13 @@ class SetDateTimePickerMixin(forms.Form):
                 self.fields[field].widget = TimePickerWidget()
 
 
-class SetPositiveIntegerMixin(forms.Form):
+class SetPositiveIntegerMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
-        super(SetPositiveIntegerMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for field in self.fields:
             if isinstance(self.fields[field].widget, (
-                    NumericWidget,
-                    NumericIntegerWidget,
+                    NumericWidget, NumericIntegerWidget,
                     NumericPositiveIntegerWidget)):
                 continue
             if isinstance(self.fields[field].widget, forms.NumberInput):

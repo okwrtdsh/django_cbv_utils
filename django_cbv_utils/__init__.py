@@ -1,4 +1,3 @@
-# coding=utf-8
 VERSION = (0, 1, 0)
 
 # Dynamically calculate the version based on VERSION tuple

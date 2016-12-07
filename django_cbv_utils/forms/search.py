@@ -25,8 +25,8 @@ class SearchForm(ModelForm):
         fields = []
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop("request", None)
-        super(SearchForm, self).__init__(*args, **kwargs)
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].required = False
 
@@ -100,7 +100,7 @@ class SearchForm(ModelForm):
                 q = Q()
                 for target in target_list:
                     q |= Q(**{'{0}__{1}'.format(target, attr): getattr(
-                        data, attr) for attr in ("year", "month", "day")})
+                        data, attr) for attr in ('year', 'month', 'day')})
                 queries &= q
                 continue
 
@@ -111,12 +111,12 @@ class SearchForm(ModelForm):
                     for i, v in enumerate(data):
                         if v is not None:
                             _q &= Q(**{'{0}__{1}'.format(
-                                target, operator.split("_")[i]): v})
+                                target, operator.split('_')[i]): v})
                     q |= _q
                 queries &= q
                 continue
 
-            if operator == "icontains_or":
+            if operator == 'icontains_or':
                 if not isinstance(data, str) or not data:
                     continue
                 q = Q()
@@ -126,7 +126,7 @@ class SearchForm(ModelForm):
                 queries &= q
                 continue
 
-            if operator == "icontains_and":
+            if operator == 'icontains_and':
                 if not isinstance(data, str) or not data:
                     continue
                 q = Q()

@@ -1,7 +1,4 @@
-from django import forms
-
-
-class RequiredMixin(forms.Form):
+class RequiredMixin(object):
     multiple_required_list = []
     chain_required_list = []
 
