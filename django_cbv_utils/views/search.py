@@ -6,9 +6,10 @@ from django_cbv_utils.forms import SearchForm
 
 class SearchListView(FormMixin, ListView):
     form_class = SearchForm
+    context_search_form_name = 'form'
 
     def get_queryset(self):
-        queryset = super(SearchListView, self).get_queryset().select_related()
+        queryset = super().get_queryset().select_related()
         if not self.get_form_class():
             return queryset
 
@@ -19,8 +20,8 @@ class SearchListView(FormMixin, ListView):
             return self.form_invalid(form, queryset)
 
     def get_context_data(self, **kwargs):
-        context = super(SearchListView, self).get_context_data(**kwargs)
-        context['form'] = self.get_form()
+        context = super().get_context_data(**kwargs)
+        context[self.context_search_form_name] = self.get_form()
         return context
 
     def get_form_kwargs(self):
@@ -42,10 +43,10 @@ class SearchListView(FormMixin, ListView):
         """
         Returns the queryset in case of valid form.
         """
-        return form.get_queryset(queryset, request=self.request)
+        return form.get_queryset(queryset)
 
     def form_invalid(self, form, queryset):
         """
         Returns the queryset in case of invalid form.
         """
-        return queryset
+        return form.get_invalid_queryset(queryset)

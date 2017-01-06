@@ -8,10 +8,11 @@ from django.forms import ModelForm
 class SearchForm(ModelForm):
     queryset_filter = None
     queryset_exclude = None
+    require_fields = None
 
-    custom_lookup = [
+    lookups = [
         'or',
-        'date',
+        'date',  # TODO: remove in Django 1.9
         'gt_lt',
         'gt_lte',
         'gte_lt',
@@ -28,7 +29,7 @@ class SearchForm(ModelForm):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].required = False
+            self.fields[field].required = field in self.get_require_fields()
 
     def get_queryset_filter(self):
         if self.queryset_filter is not None:
@@ -40,112 +41,114 @@ class SearchForm(ModelForm):
             return self.queryset_exclude
         return []
 
-    def get_queryset(self, queryset, request=None):
-        self.is_valid()
-        queries = Q()
-        queries &= self._get_queries(self.get_queryset_filter())
-        queries &= ~self._get_queries(self.get_queryset_exclude())
-        return queryset.filter(queries).distinct()
+    def get_require_fields(self):
+        if self.require_fields is not None:
+            return self.require_fields
+        return []
 
-    def _get_queries(self, queryset_filter):
-        queries = Q()
+    def get_queryset(self, queryset):
+        query = Q()
+        query &= self.get_query_from_list(self.get_queryset_filter())
+        query &= ~self.get_query_from_list(self.get_queryset_exclude())
+        return queryset.filter(query).distinct()
+
+    def get_invalid_queryset(self, queryset):
+        return queryset.none()
+
+    def get_operator(self, filter_dict):
+        return filter_dict.get('op', '')
+
+    def get_targets(self, filter_dict):
+        targets = filter_dict['targets']
+        if isinstance(targets, (tuple, list)):
+            return targets
+        return [targets]
+
+    def get_fields(self, filter_dict):
+        fields = filter_dict.get('fields')
+        if fields is None:
+            return self.get_targets(filter_dict)
+        if isinstance(fields, (tuple, list)):
+            return fields
+        return [fields]
+
+    def get_cleaned_data_list(self, fields, filter_dict):
+        return [self.cleaned_data.get(field) for field in fields]
+
+    def get_query_from_list(self, queryset_filter):
+        query = Q()
         for filter_dict in queryset_filter:
-            operator = filter_dict.get('op', '')
-
-            if isinstance(filter_dict['targets'], (tuple, list)):
-                target_list = filter_dict['targets']
-            else:
-                target_list = [filter_dict['targets']]
-
-            if isinstance(filter_dict['fields'], (tuple, list)):
-                if len(filter_dict['fields']) > 1:
-                    data = []
-                    for field in filter_dict['fields']:
-                        data.append(self.cleaned_data[field])
-                else:
-                    data = self.cleaned_data[filter_dict['fields'][0]]
-                    if data is None or data == '':
-                        continue
-            else:
-                data = self.cleaned_data[filter_dict['fields']]
-                if data is None or data == '':
-                    continue
-
-            if not operator:
-                q = Q()
-                for target in target_list:
-                    q |= Q(**{target: data})
-                queries &= q
+            operator = self.get_operator(filter_dict)
+            targets = self.get_targets(filter_dict)
+            fields = self.get_fields(filter_dict)
+            cleaned_data_list = self.get_cleaned_data_list(fields, filter_dict)
+            if not cleaned_data_list:
                 continue
+            query &= self.get_query(operator, targets, cleaned_data_list)
+        return query
 
-            if operator not in self.custom_lookup:
+    def get_query(self, operator, targets, cleaned_data_list):
+        query = Q()
+        if not operator:
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    q |= Q(**{'{0}__{1}'.format(
-                        target, operator): data})
-                queries &= q
-                continue
-
-            if operator == 'or':
+                for cleaned_data in cleaned_data_list:
+                    if cleaned_data:
+                        q &= Q(**{target: cleaned_data})
+                query |= q
+        elif operator not in self.lookups:
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    if data is not None:
-                        q |= Q(**{target: data})
-                queries &= q
-                continue
-
-            if operator == 'date':
-                if not isinstance(data, datetime.date):
-                    continue
+                for cleaned_data in cleaned_data_list:
+                    if cleaned_data:
+                        q &= Q(**{'{0}__{1}'.format(
+                            target, operator): cleaned_data})
+                query |= q
+        elif operator == 'or':
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    q |= Q(**{'{0}__{1}'.format(target, attr): getattr(
-                        data, attr) for attr in ('year', 'month', 'day')})
-                queries &= q
-                continue
-
-            if operator in ('gt_lt', 'gt_lte', 'gte_lt', 'gte_lte'):
+                for cleaned_data in cleaned_data_list:
+                    if cleaned_data:
+                        q |= Q(**{target: cleaned_data})
+                query |= q
+        elif operator == 'date':
+            dates = []
+            for cleaned_data in cleaned_data_list:
+                if isinstance(
+                        cleaned_data, (datetime.date, datetime.datetime)):
+                    dates.append(cleaned_data)
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    _q = Q()
-                    for i, v in enumerate(data):
-                        if v is not None:
-                            _q &= Q(**{'{0}__{1}'.format(
-                                target, operator.split('_')[i]): v})
-                    q |= _q
-                queries &= q
-                continue
-
-            if operator == 'icontains_or':
-                if not isinstance(data, str) or not data:
-                    continue
+                for date in dates:
+                    q &= Q(**{'{0}__{1}'.format(target, attr): getattr(
+                        date, attr) for attr in ('year', 'month', 'day')})
+                query |= q
+        elif operator in ('gt_lt', 'gt_lte', 'gte_lt', 'gte_lte'):
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    _q = Q()
-                    for v in re.split('\s', data):
-                        _q |= Q(**{'{0}__icontains'.format(target): v})
-                    q |= _q
-                queries &= q
-                continue
-
-            if operator == 'icontains_and':
-                if not isinstance(data, str) or not data:
-                    continue
+                for i, cleaned_data in enumerate(cleaned_data_list):
+                    if cleaned_data is not None and i < 2:
+                        q &= Q(**{'{0}__{1}'.format(
+                            target, operator.split('_')[i]): cleaned_data})
+                query |= q
+        elif operator == 'icontains_or':
+            words = []
+            for cleaned_data in cleaned_data_list:
+                if isinstance(cleaned_data, str) and cleaned_data != '':
+                    words.extend(re.split('\s', cleaned_data))
+            for target in targets:
                 q = Q()
-                for target in target_list:
-                    _q = Q()
-                    for v in re.split('\s', data):
-                        _q &= Q(**{'{0}__icontains'.format(target): v})
-                    q |= _q
-                queries &= q
-                continue
-
-            queries = self.get_queries(
-                queries, filter_dict, target_list,
-                operator, data, self.request)
-
-        return queries
-
-    def get_queries(
-            self, queries, filter_dict, target_list, operator, data, request):
-        return queries
+                for word in words:
+                    q |= Q(**{'{0}__icontains'.format(target): word})
+                query |= q
+        elif operator == 'icontains_and':
+            words = []
+            for cleaned_data in cleaned_data_list:
+                if isinstance(cleaned_data, str) and cleaned_data != '':
+                    words.extend(re.split('\s', cleaned_data))
+            for target in targets:
+                q = Q()
+                for word in words:
+                    q &= Q(**{'{0}__icontains'.format(target): word})
+                query |= q
+        return query
