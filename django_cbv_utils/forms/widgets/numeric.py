@@ -29,11 +29,11 @@ class NumericWidget(NumberInput):
     def __init__(self, attrs={}, options={}):
         self.attrs = attrs
         self.options = options
-        super(NumericWidget, self).__init__(attrs)
+        super().__init__(attrs)
 
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
-        rendered_widget = super(NumericWidget, self).render(name, value, final_attrs)
+        rendered_widget = super().render(name, value, final_attrs)
 
         options_list = []
         for key, value in iter(self.options.items()):
@@ -56,7 +56,7 @@ class NumericIntegerWidget(NumericWidget):
 
     def __init__(self, attrs={}, options={}):
         options['decimal'] = options.get('decimal', False)
-        super(NumericIntegerWidget, self).__init__(attrs, options)
+        super().__init__(attrs, options)
 
 
 class NumericPositiveIntegerWidget(NumericWidget):
@@ -64,4 +64,4 @@ class NumericPositiveIntegerWidget(NumericWidget):
     def __init__(self, attrs={}, options={}):
         options['decimal'] = options.get('decimal', False)
         options['negative'] = options.get('negative', False)
-        super(NumericPositiveIntegerWidget, self).__init__(attrs, options)
+        super().__init__(attrs, options)

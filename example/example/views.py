@@ -1,10 +1,10 @@
 from django.shortcuts import redirect
-from example.forms import MyModelSearchForm
-from example.models import MyModel
 
 from django_cbv_utils.views import (
     GETBindEventMixin, JSONResponseMixin, POSTBindEventMixin, SearchListView,
 )
+from example.forms import MyModelSearchForm
+from example.models import MyModel
 
 
 class MyModelListView(

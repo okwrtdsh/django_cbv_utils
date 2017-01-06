@@ -10,6 +10,6 @@ class RedirectWithParamsMixin(object):
         return self.params
 
     def form_valid(self, form):
-        super(RedirectWithParamsMixin, self).form_valid(form)
+        super().form_valid(form)
         return HttpResponseRedirect(
             self.get_success_url() + "?%s" % urlencode(self.get_params(form)))

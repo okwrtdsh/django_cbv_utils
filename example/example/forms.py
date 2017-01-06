@@ -8,7 +8,6 @@ from django_cbv_utils.forms.widgets import (
     NumericIntegerWidget, NumericPositiveIntegerWidget, NumericWidget,
     TimePickerWidget,
 )
-
 from example.models import MyModel
 
 

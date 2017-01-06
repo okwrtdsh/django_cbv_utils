@@ -49,4 +49,4 @@ class HybridJSONResponseMixin(JSONResponseMixin, TemplateResponseMixin):
         if self.request.GET.get(self.sign) == self.countersign:
             return self.render_to_json_response(context)
         else:
-            return super(HybridJSONResponseMixin, self).render_to_response(context)
+            return super().render_to_response(context)

@@ -86,11 +86,11 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
             lambda x: TO_PYTHON_FMT[x.group()],
             format
         )
-        super(DateTimePickerBaseMixin, self).__init__(attrs, format=self.format)
+        super().__init__(attrs, format=self.format)
 
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
-        rendered_widget = super(DateTimePickerBaseMixin, self).render(name, value, final_attrs)
+        rendered_widget = super().render(name, value, final_attrs)
 
         options_list = []
         for key, value in iter(self.options.items()):
@@ -145,7 +145,7 @@ class DateTimePickerWidget(DateTimePickerBaseMixin, DateTimeInput):
         options['locale'] = options.get('locale', 'ja')
         options['viewMode'] = options.get('viewMode', "days")
         options['sideBySide'] = options.get('sideBySide', True)
-        super(DateTimePickerWidget, self).__init__(attrs, options)
+        super().__init__(attrs, options)
 
 
 class DatePickerWidget(DateTimePickerBaseMixin, DateInput):
@@ -154,7 +154,7 @@ class DatePickerWidget(DateTimePickerBaseMixin, DateInput):
         options['format'] = options.get('format', 'YYYY-MM-DD')
         options['locale'] = options.get('locale', 'ja')
         options['viewMode'] = options.get('viewMode', "days")
-        super(DatePickerWidget, self).__init__(attrs, options)
+        super().__init__(attrs, options)
 
 
 class TimePickerWidget(DateTimePickerBaseMixin, TimeInput):
@@ -162,4 +162,4 @@ class TimePickerWidget(DateTimePickerBaseMixin, TimeInput):
     def __init__(self, attrs={}, options={}):
         options['format'] = options.get('format', 'HH:mm')
         options['locale'] = options.get('locale', 'ja')
-        super(TimePickerWidget, self).__init__(attrs, options)
+        super().__init__(attrs, options)

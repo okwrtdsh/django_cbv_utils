@@ -1,6 +1,7 @@
 import datetime
 
 from django.test import TestCase
+
 from example.forms import MyModelSearchForm
 from example.models import MyModel
 
