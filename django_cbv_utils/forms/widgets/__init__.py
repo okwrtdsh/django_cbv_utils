@@ -1,8 +1,7 @@
-from .calendar import CalendarCheckboxSelectMultiple,\
-     CalendarRadioSelectMultiple
-from .datetime_picker import DateTimePickerWidget,\
-     DatePickerWidget, TimePickerWidget
-from .numeric import NumericWidget, NumericIntegerWidget,\
-     NumericPositiveIntegerWidget
+from .datetime_picker import (
+    DatePickerWidget, DateTimePickerWidget, TimePickerWidget,
+)
 from .file import BootstrapFileInputWidget
-
+from .numeric import (
+    NumericIntegerWidget, NumericPositiveIntegerWidget, NumericWidget,
+)

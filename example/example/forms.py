@@ -1,16 +1,17 @@
 import datetime
 
 from django import forms
+from example.models import MyModel
+
 from django_cbv_utils.forms import (
     SearchForm, SetDateTimePickerMixin, SetFromControlMixin,
-    SetPositiveIntegerMixin)
-from django_cbv_utils.forms.fields import CalendarMultipleChoiceField
+    SetPositiveIntegerMixin,
+)
 from django_cbv_utils.forms.widgets import (
-    BootstrapFileInputWidget, CalendarRadioSelectMultiple,
-    DatePickerWidget, DateTimePickerWidget, NumericIntegerWidget,
-    NumericPositiveIntegerWidget, NumericWidget, TimePickerWidget)
-
-from example.models import MyModel
+    BootstrapFileInputWidget, DatePickerWidget, DateTimePickerWidget,
+    NumericIntegerWidget, NumericPositiveIntegerWidget, NumericWidget,
+    TimePickerWidget,
+)
 
 
 class MyModelSearchForm(
@@ -83,27 +84,3 @@ class MyModelSearchForm(
     numeric_positive_integer = forms.IntegerField(
         widget=NumericPositiveIntegerWidget())
     bootstrap_filewidget = forms.FileField(widget=BootstrapFileInputWidget())
-    calendar = CalendarMultipleChoiceField(
-        label="カレンダー",
-        choices=(
-            (1, "label1"),
-            (2, "label2"),
-            (3, "label3"),
-        ),
-        disables=(
-            (1, [datetime.date.today(), datetime.date.today().replace(day=1)]),
-            (3, [datetime.date.today().replace(day=10 + i) for i in range(10)])
-        )
-    )
-    radio_calendar = CalendarMultipleChoiceField(
-        choices=(
-            (1, "label1"),
-            (2, "label2"),
-            (3, "label3"),
-        ),
-        disables=(
-            (1, [datetime.date.today(), datetime.date.today().replace(day=1)]),
-            (3, [datetime.date.today().replace(day=10 + i) for i in range(10)])
-        ),
-        widget=CalendarRadioSelectMultiple
-    )

@@ -1,5 +1,6 @@
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
+
 from django_cbv_utils.forms import SearchForm
 
 

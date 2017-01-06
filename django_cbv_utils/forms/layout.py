@@ -1,10 +1,9 @@
 from django import forms
 
 from .widgets import (
-    CalendarCheckboxSelectMultiple,
-    DatePickerWidget, DateTimePickerWidget,
-    NumericIntegerWidget, NumericPositiveIntegerWidget,
-    NumericWidget, TimePickerWidget)
+    DatePickerWidget, DateTimePickerWidget, NumericIntegerWidget,
+    NumericPositiveIntegerWidget, NumericWidget, TimePickerWidget,
+)
 
 
 class SetFromControlMixin(forms.BaseForm):

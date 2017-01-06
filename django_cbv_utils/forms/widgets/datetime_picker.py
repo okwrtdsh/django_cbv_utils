@@ -3,7 +3,8 @@ import re
 
 from django.forms import forms
 from django.forms.widgets import (
-    DateInput, DateTimeBaseInput, DateTimeInput, TimeInput)
+    DateInput, DateTimeBaseInput, DateTimeInput, TimeInput,
+)
 from django.utils.safestring import mark_safe
 
 from .misc import to_js_value
