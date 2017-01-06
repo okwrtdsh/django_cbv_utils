@@ -1,11 +1,7 @@
-import datetime
-
 from django import forms
-from example.models import MyModel
 
 from django_cbv_utils.forms import (
-    SearchForm, SetDateTimePickerMixin, SetFromControlMixin,
-    SetPositiveIntegerMixin,
+    DateTimePickerMixin, FormControlMixin, PositiveIntegerMixin, SearchForm,
 )
 from django_cbv_utils.forms.widgets import (
     BootstrapFileInputWidget, DatePickerWidget, DateTimePickerWidget,
@@ -13,10 +9,12 @@ from django_cbv_utils.forms.widgets import (
     TimePickerWidget,
 )
 
+from example.models import MyModel
+
 
 class MyModelSearchForm(
-        SearchForm, SetFromControlMixin,
-        SetDateTimePickerMixin, SetPositiveIntegerMixin):
+        SearchForm, FormControlMixin,
+        DateTimePickerMixin, PositiveIntegerMixin):
     queryset_filter = [
         {"targets": "name", "op": "icontains_or",
          "fields": "name_icontains_or"},

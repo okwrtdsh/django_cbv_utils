@@ -6,7 +6,7 @@ from .widgets import (
 )
 
 
-class SetFromControlMixin(forms.BaseForm):
+class FormControlMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,7 +17,7 @@ class SetFromControlMixin(forms.BaseForm):
                     {'class': "form-control"})
 
 
-class SetDateTimePickerMixin(forms.BaseForm):
+class DateTimePickerMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,7 +33,7 @@ class SetDateTimePickerMixin(forms.BaseForm):
                 self.fields[field].widget = TimePickerWidget()
 
 
-class SetPositiveIntegerMixin(forms.BaseForm):
+class PositiveIntegerMixin(forms.BaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

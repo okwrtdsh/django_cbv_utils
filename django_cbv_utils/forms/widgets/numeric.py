@@ -58,6 +58,7 @@ class NumericIntegerWidget(NumericWidget):
         options['decimal'] = options.get('decimal', False)
         super(NumericIntegerWidget, self).__init__(attrs, options)
 
+
 class NumericPositiveIntegerWidget(NumericWidget):
 
     def __init__(self, attrs={}, options={}):
