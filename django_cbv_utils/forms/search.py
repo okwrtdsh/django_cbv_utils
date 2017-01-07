@@ -59,15 +59,15 @@ class SearchForm(ModelForm):
         return filter_dict.get('op', '')
 
     def get_targets(self, filter_dict):
-        targets = filter_dict['targets']
+        targets = filter_dict.get('targets')
+        if targets is None:
+            return self.get_fields(filter_dict)
         if isinstance(targets, (tuple, list)):
             return targets
         return [targets]
 
     def get_fields(self, filter_dict):
-        fields = filter_dict.get('fields')
-        if fields is None:
-            return self.get_targets(filter_dict)
+        fields = filter_dict['fields']
         if isinstance(fields, (tuple, list)):
             return fields
         return [fields]
