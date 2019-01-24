@@ -88,7 +88,7 @@ class DateTimePickerBaseMixin(DateTimeBaseInput):
         )
         super().__init__(attrs, format=self.format)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         final_attrs = self.build_attrs(attrs)
         rendered_widget = super().render(name, value, final_attrs)
 
